@@ -16,7 +16,7 @@ async function pickFolder() {
 }
 
 async function displayImages(folder) {
-   currentFolder = folder
+  currentFolder = folder
   const myFolder = folder
 
   const images = await window.api.getImages(folder)
@@ -37,7 +37,7 @@ async function displayImages(folder) {
 
     set.forEach((imagePath) => {
       const img = document.createElement('img')
-      img.draggable = true
+      img.draggable = false
       img.classList.add('img')
       img.src = imagePath
       img.style.opacity = '0'
@@ -73,13 +73,13 @@ function float(img) {
 
   function animate() {
     const speed = parseFloat(document.getElementById('floatSpeedSlider').value)
-    if (!img.classList.contains('pinned')) {
+    if (!img.classList.contains('pinned') && !img.classList.contains('dragging')) {
       const x = parseFloat(img.style.left)
       const y = parseFloat(img.style.top)
 
       if (x <= 0 || x + img.width >= window.innerWidth) dirX *= -1
       if (y <= 0 || y + img.height >= window.innerHeight) dirY *= -1
-
+                                                
       img.style.left = `${x + dirX * speed}px`
       img.style.top = `${y + dirY * speed}px`
     }
@@ -89,32 +89,33 @@ function float(img) {
 }
 
 function makeDraggable(img) {
-  let isDragging = false
   let offsetX = 0
   let offsetY = 0
 
   img.addEventListener('mousedown', (e) => {
-    isDragging = true
+    img.classList.add('dragging')
     offsetX = e.clientX - img.getBoundingClientRect().left
     offsetY = e.clientY - img.getBoundingClientRect().top
   })
 
   document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return
+    if (img.classList.contains('dragging')){
     img.style.left = `${e.clientX - offsetX}px`
     img.style.top = `${e.clientY - offsetY}px`
+    }
   })
 
   document.addEventListener('mouseup', () => {
-    isDragging = false
+    img.classList.remove('dragging')
   })
 }
 function setImgSize(img){
   const selectedSize = parseInt(document.getElementById('imgSizeSlider').value)
   if(selectedSize ==1)
   {
-    img.style.height = "200px"
-    img.style.width = "125px"
+    img.style.objectFit = 'contain'
+    img.style.maxHeight = "200px"
+    img.style.maxWidth = "125px"
 
   }
   if(selectedSize == 2)

@@ -126,6 +126,7 @@ main{
   color:white;
 }
 
+/* float speed */
 #floatSpeedSlider::-webkit-slider-runnable-track {
   background: linear-gradient(to right, white 0%, white var(--val), rgba(255, 255, 255, 0.1) var(--val),rgba(255, 255, 255, 0.1) 100%);
   height:5px;
@@ -170,7 +171,52 @@ main{
   
 }
 
+/* image lifespan*/
+#imgLifespanSlider::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, white 0%, white var(--val), rgba(255, 255, 255, 0.1) var(--val),rgba(255, 255, 255, 0.1) 100%);
+  height:5px;
+  border-radius: 2px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+#imgLifespanWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:10px;
+}
+#imgLifespanSlider {
+  -webkit-appearance: none; /* removes default browser style */
+  width: 100px;
+  height: 5px;
+  border-radius: 2px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+ 
+}
+/* the draggable circle */
+#imgLifespanSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -8px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  
+}
+#imgLifespanSlider::-webkit-slider-thumb:hover {
+  -webkit-appearance: none;
+   margin-top: -8px;
+  width: 25px;
+  height: 25px;
+  transition:  0.3s ease;
+  
+}
 
+/* image size*/
 #imgSizeWrapper {
   display: flex;
   flex-direction: column;
@@ -213,6 +259,8 @@ main{
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+/* image num*/
 #imgNumSliderWrapper{
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-const MIN_LIFESPAN = 30000  // 30s
-const MAX_LIFESPAN = 60000  // 60s
+let LIFESPAN = parseInt(document.getElementById('imgLifespanSlider').value)
+const SPAWN_GAP = 3000; // 3s
 const FADE_TIME = 2000; // how long fade takes
 let currentFolder = null
 let imageQueue = []
@@ -31,10 +31,11 @@ function checkAndSpawn() {
   const target = parseInt(document.getElementById('imgNumSlider').value)
   let currentCount = document.querySelectorAll('.img:not(.pinned)').length
 
-  while (currentCount < target && imageQueue.length > 0) {
+  if(currentCount < target && imageQueue.length >0)
+  {
     const nextPath = imageQueue.shift()
     spawnImage(nextPath)
-    currentCount++
+    setTimeout(checkAndSpawn, SPAWN_GAP)
   }
 }
 
@@ -69,9 +70,8 @@ function spawnImage(imagePath) {
   setImgSize(img)
   float(img)
   requestAnimationFrame(() => { img.style.opacity = '1' })
-
-  const lifespan = MIN_LIFESPAN + Math.random() * (MAX_LIFESPAN - MIN_LIFESPAN)
-  img.dataset.timerId = setTimeout(() => expireImage(img, imagePath), lifespan)
+  LIFESPAN = parseInt(document.getElementById('imgLifespanSlider').value) 
+  img.dataset.timerId = setTimeout(() => expireImage(img, imagePath), LIFESPAN)
 }
 
 function expireImage(img, imagePath) {
@@ -158,6 +158,20 @@ function menu() {
     const speedSliderVal = (speedSlider.value - speedSlider.min) / (speedSlider.max - speedSlider.min) * 100
     speedSlider.style.setProperty('--val', `${speedSliderVal}%`)
     speedValueDisplay.textContent = speedSlider.value
+    localStorage.setItem('savedfloatSpeed', speedSlider.value)
+  })
+
+  const lifespanSlider = document.getElementById('imgLifespanSlider')
+  const lifespanValueDisplay = document.getElementById('imgLifespanValue')
+  const lifespanSliderVal = (lifespanSlider.value - lifespanSlider.min) / (lifespanSlider.max - lifespanSlider.min) * 100
+  lifespanSlider.style.setProperty('--val', `${lifespanSliderVal}%`)
+  lifespanValueDisplay.textContent = lifespanSlider.value /1000 + 's'
+  lifespanSlider.addEventListener('input', () => {
+    const lifespanSliderVal = (lifespanSlider.value - lifespanSlider.min) / (lifespanSlider.max - lifespanSlider.min) * 100
+    lifespanSlider.style.setProperty('--val', `${lifespanSliderVal}%`)
+    lifespanValueDisplay.textContent = lifespanSlider.value /1000 + 's'
+    LIFESPAN = parseInt(lifespanSlider.value)
+    localStorage.setItem('savedlifespan', lifespanSlider.value)
   })
 
   const numSlider = document.getElementById('imgNumSlider')
@@ -169,6 +183,7 @@ function menu() {
     const numSliderVal = (numSlider.value - numSlider.min) / (numSlider.max - numSlider.min) * 100
     numSlider.style.setProperty('--val', `${numSliderVal}%`)
     numValueDisplay.textContent = numSlider.value
+    localStorage.setItem('savedimgnum', numSlider.value)
     checkAndSpawn()
   })
 
@@ -182,6 +197,7 @@ function menu() {
     sizeSlider.style.setProperty('--val', `${sizeSliderVal}%`)
     sizeValueDisplay.textContent = sizeSlider.value
     document.querySelectorAll('.img').forEach(img => setImgSize(img))
+    localStorage.setItem('savedimgsize', sizeSlider.value)
   })
 }
 
@@ -193,6 +209,22 @@ function main() {
     mainFolderSelect.style.display = 'none'
   } else {
     mainFolderSelect.style.display = 'block'
+  }
+  const savedfloatSpeed = localStorage.getItem('savedfloatSpeed')
+  if (savedfloatSpeed) {
+  document.getElementById('floatSpeedSlider').value = savedfloatSpeed
+  }
+  const savedlifespan = localStorage.getItem('savedlifespan')
+  if (savedlifespan) {
+  document.getElementById('imgLifespanSlider').value = savedlifespan
+  }
+  const savedimgnum = localStorage.getItem('savedimgnum')
+  if (savedimgnum) {
+  document.getElementById('imgNumSlider').value = savedimgnum
+  }
+  const savedimgsize = localStorage.getItem('savedimgsize')
+  if (savedimgsize) {
+  document.getElementById('imgSizeSlider').value = savedimgsize
   }
   document.getElementById('mainFolderSelect')?.addEventListener('click', pickFolder)
   document.getElementById('minimizeBtn')?.addEventListener('click', () => window.api.minimize())

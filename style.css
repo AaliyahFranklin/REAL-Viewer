@@ -79,12 +79,12 @@ main{
   top:0; /*slides down*/
 }
 
-
 #menuFolderSelect {
   height: 70px;
   width: 300px;
   font-size: 20px;
   border-radius: 15px;
+  color: white;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 2px solid transparent;
@@ -115,7 +115,7 @@ main{
 }
 #sliderTitles
 {
-  color:black;
+  color:white;
   justify-items: center;
   white-space: nowrap;
 }
@@ -123,6 +123,7 @@ main{
   display: flex;
   flex-direction: row;
   gap:30px;
+  color:white;
 }
 
 #floatSpeedSlider::-webkit-slider-runnable-track {
@@ -256,7 +257,6 @@ main{
 }
 
 #windowBtns {
-  
   position: absolute;
   right:20px;
   flex-direction: row;
@@ -269,6 +269,7 @@ main{
   right: 40px;
   font-size: 18px;
   line-height: 1;
+  color:white;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -282,6 +283,7 @@ main{
   right: 10px;
   font-size: 18px;
   line-height: 1;
+  color:white;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);

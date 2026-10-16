@@ -1,6 +1,6 @@
 {
-  "name": "appforluke",
-  "version": "1.0.0",
+  "name": "REAL!Viewer",
+  "version": "1.1.0",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "build": {
-    "icon": "icon.ico"
+    "icon": "icon.ico",
+    "productName": "REAL! Viewer"
   },
   "devDependencies": {
     "electron": "^42.2.0",
